@@ -1,10 +1,10 @@
-# Web Development Project 7 - *Name of App Here*
+# Web Development Project 7 - *CrewCrafter*
 
-Submitted by: **Your Name Here**
+Submitted by: **Krishna Choudhary**
 
-This web app: **insert description**
+ **This web app allows users to create and manage custom characters ("crewmates") with unique attributes and categories. Users can assemble their dream team, view detailed information about each character, edit their properties, and see team statistics and success metrics.**
 
-Time spent: **X** hours spent in total
+Time spent: **12** hours spent in total
 
 ## Required Features
 
