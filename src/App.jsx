@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
 import CreateCrewmate from './pages/CreateCrewmate';
 import CrewmateGallery from './pages/CrewmateGallery';
+import CrewmateDetail from './pages/CrewmateDetail';
+import EditCrewmate from './pages/EditCrewmate';
 import './App.css';
 
 function App() {
@@ -26,6 +28,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/create" element={<CreateCrewmate />} />
             <Route path="/gallery" element={<CrewmateGallery />} />
+            <Route path="/gallery/:id" element={<CrewmateDetail />} />
+            <Route path="/edit/:id" element={<EditCrewmate />} />
           </Routes>
         </main>
         

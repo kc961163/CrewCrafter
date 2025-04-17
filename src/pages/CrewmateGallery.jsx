@@ -1,14 +1,26 @@
 // src/pages/CrewmateGallery.jsx
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { getCrewmates } from '../services/crewmateService';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/CrewmateGallery.css';
 
 function CrewmateGallery() {
+  const location = useLocation();
   const [crewmates, setCrewmates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState(location.state?.message || null);
+
+  useEffect(() => {
+    // Clear message after 5 seconds
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   useEffect(() => {
     const fetchCrewmates = async () => {
@@ -48,6 +60,13 @@ function CrewmateGallery() {
   return (
     <div className="gallery-container">
       <h1>Crewmate Gallery</h1>
+      
+      {message && (
+        <div className="success-notification">
+          <p>{message}</p>
+        </div>
+      )}
+      
       {crewmates.length === 0 ? (
         <div className="empty-gallery-message">
           <p>No crewmates found. Create your first crewmate to get started!</p>
@@ -66,7 +85,10 @@ function CrewmateGallery() {
                 </div>
                 <div className="attribute">Special Ability: {crewmate.special_ability}</div>
               </div>
-              <Link to={`/gallery/${crewmate.id}`} className="action-button secondary">View Details</Link>
+              <div className="card-actions">
+                <Link to={`/gallery/${crewmate.id}`} className="action-button secondary">View Details</Link>
+                <Link to={`/edit/${crewmate.id}`} className="action-button primary">Edit</Link>
+              </div>
             </div>
           ))}
         </div>
