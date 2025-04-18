@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import AttributeSelector from '../components/AttributeSelector';
+import CategorySelector from '../components/CategorySelector';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { getCrewmateById, updateCrewmate, deleteCrewmate } from '../services/crewmateService';
+import { getAttributeOptionsForCategory } from '../config/categoryConfig';
 import '../styles/CrewmateForm.css';
 import '../styles/EditCrewmate.css';
 
@@ -20,17 +22,30 @@ function EditCrewmate() {
   
   const [formData, setFormData] = useState({
     name: '',
+    category: '',
     speed: '',
     color: '',
     special_ability: ''
   });
   
-  // Predefined options for each attribute
+  // Filtered options based on selected category
+  const [filteredOptions, setFilteredOptions] = useState(null);
+  
+  // Predefined options for each attribute (used when no category selected)
   const attributeOptions = {
     speed: ['Slow', 'Medium', 'Fast', 'Lightning'],
     color: ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Black', 'White'],
     special_ability: ['Teleportation', 'Invisibility', 'Super Strength', 'Flight', 'Mind Reading', 'Healing']
   };
+  
+  // Effect to update filtered options when category changes
+  useEffect(() => {
+    if (formData.category) {
+      // Get filtered options for selected category
+      const categoryOptions = getAttributeOptionsForCategory(formData.category);
+      setFilteredOptions(categoryOptions);
+    }
+  }, [formData.category]);
   
   // Fetch the crewmate data when component mounts
   useEffect(() => {
@@ -42,10 +57,17 @@ function EditCrewmate() {
         
         setFormData({
           name: data.name,
+          category: data.category || '', // Handle legacy crewmates without category
           speed: data.speed,
           color: data.color,
           special_ability: data.special_ability
         });
+        
+        // If the crewmate has a category, get the filtered options
+        if (data.category) {
+          const categoryOptions = getAttributeOptionsForCategory(data.category);
+          setFilteredOptions(categoryOptions);
+        }
       } catch (err) {
         console.error('Error fetching crewmate:', err);
         setErrors({ fetch: err.message || 'Failed to load crewmate data' });
@@ -70,6 +92,30 @@ function EditCrewmate() {
   const handleAttributeChange = (attributeName, value) => {
     setFormData({...formData, [attributeName]: value});
     
+    // If changing category, we need to check if current attributes are valid
+    if (attributeName === 'category') {
+      const newCategoryOptions = getAttributeOptionsForCategory(value);
+      
+      // Reset attribute selections if they're not valid for the new category
+      const resetAttributes = {};
+      if (formData.speed && !newCategoryOptions.speed.includes(formData.speed)) {
+        resetAttributes.speed = '';
+      }
+      if (formData.color && !newCategoryOptions.color.includes(formData.color)) {
+        resetAttributes.color = '';
+      }
+      if (formData.special_ability && !newCategoryOptions.special_ability.includes(formData.special_ability)) {
+        resetAttributes.special_ability = '';
+      }
+      
+      if (Object.keys(resetAttributes).length > 0) {
+        setFormData(prev => ({
+          ...prev,
+          ...resetAttributes
+        }));
+      }
+    }
+    
     // Clear error for this attribute when it changes
     if (errors[attributeName]) {
       setErrors({...errors, [attributeName]: null});
@@ -81,6 +127,10 @@ function EditCrewmate() {
     
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
+    }
+    
+    if (!formData.category) {
+      newErrors.category = 'Category is required';
     }
     
     if (!formData.speed) {
@@ -187,29 +237,42 @@ function EditCrewmate() {
             {errors.name && <p className="error-message">{errors.name}</p>}
           </div>
           
-          <AttributeSelector
-            attributeName="Speed"
-            options={attributeOptions.speed}
-            selectedValue={formData.speed}
+          <CategorySelector 
+            selectedCategory={formData.category}
             onChange={handleAttributeChange}
           />
-          {errors.speed && <p className="error-message">{errors.speed}</p>}
+          {errors.category && <p className="error-message">{errors.category}</p>}
           
-          <AttributeSelector
-            attributeName="Color"
-            options={attributeOptions.color}
-            selectedValue={formData.color}
-            onChange={handleAttributeChange}
-          />
-          {errors.color && <p className="error-message">{errors.color}</p>}
-          
-          <AttributeSelector
-            attributeName="Special_ability"
-            options={attributeOptions.special_ability}
-            selectedValue={formData.special_ability}
-            onChange={handleAttributeChange}
-          />
-          {errors.special_ability && <p className="error-message">{errors.special_ability}</p>}
+          {formData.category && (
+            <>
+              <AttributeSelector
+                attributeName="Speed"
+                options={attributeOptions.speed}
+                filteredOptions={filteredOptions?.speed}
+                selectedValue={formData.speed}
+                onChange={handleAttributeChange}
+              />
+              {errors.speed && <p className="error-message">{errors.speed}</p>}
+              
+              <AttributeSelector
+                attributeName="Color"
+                options={attributeOptions.color}
+                filteredOptions={filteredOptions?.color}
+                selectedValue={formData.color}
+                onChange={handleAttributeChange}
+              />
+              {errors.color && <p className="error-message">{errors.color}</p>}
+              
+              <AttributeSelector
+                attributeName="Special_ability"
+                options={attributeOptions.special_ability}
+                filteredOptions={filteredOptions?.special_ability}
+                selectedValue={formData.special_ability}
+                onChange={handleAttributeChange}
+              />
+              {errors.special_ability && <p className="error-message">{errors.special_ability}</p>}
+            </>
+          )}
           
           {errors.submit && <p className="error-message">{errors.submit}</p>}
           {errors.delete && <p className="error-message">{errors.delete}</p>}

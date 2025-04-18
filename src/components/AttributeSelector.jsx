@@ -1,8 +1,10 @@
 // src/components/AttributeSelector.jsx
-import { useState } from 'react';
 import '../styles/AttributeSelector.css';
 
-function AttributeSelector({ attributeName, options, selectedValue, onChange }) {
+function AttributeSelector({ attributeName, options, selectedValue, onChange, filteredOptions = null }) {
+  // Use filtered options if provided, otherwise use all options
+  const displayOptions = filteredOptions || options;
+  
   // Special rendering for color attribute
   const isColorAttribute = attributeName.toLowerCase() === 'color';
   
@@ -10,9 +12,9 @@ function AttributeSelector({ attributeName, options, selectedValue, onChange }) 
     <div className="attribute-selector">
       <h3>{attributeName.replace('_', ' ')}</h3>
       <div className="attribute-options">
-        {options.map((option) => (
+        {displayOptions.map((option) => (
           <button
-          type='button'
+            type='button'
             key={option}
             className={`attribute-option ${selectedValue === option ? 'selected' : ''} ${
               isColorAttribute ? 'color-option' : ''

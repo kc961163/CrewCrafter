@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/CrewmateDetail.css';
 import { getCrewmateById } from '../services/crewmateService';
+import categoryConfig from '../config/categoryConfig';
 
 function CrewmateDetail() {
   const { id } = useParams();
@@ -49,6 +50,15 @@ function CrewmateDetail() {
     );
   }
 
+  // Get the category name and description
+  const categoryName = crewmate.category && categoryConfig[crewmate.category] 
+    ? categoryConfig[crewmate.category].name 
+    : 'Unknown';
+  
+  const categoryDescription = crewmate.category && categoryConfig[crewmate.category]
+    ? categoryConfig[crewmate.category].description
+    : '';
+
   return (
     <div className="detail-container">
       <div className="detail-header">
@@ -59,6 +69,18 @@ function CrewmateDetail() {
       </div>
 
       <div className="crewmate-detail-card">
+        {crewmate.category && (
+          <div className="detail-row">
+            <div className="detail-label">Category:</div>
+            <div className="detail-value">
+              <span className="category-value">{categoryName}</span>
+              {categoryDescription && (
+                <span className="category-description"> - {categoryDescription}</span>
+              )}
+            </div>
+          </div>
+        )}
+
         <div className="detail-row">
           <div className="detail-label">Color:</div>
           <div className="detail-value">

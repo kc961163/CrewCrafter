@@ -9,6 +9,7 @@ export const createCrewmate = async (crewmateData) => {
       .insert([
         {
           name: crewmateData.name,
+          category: crewmateData.category,
           speed: crewmateData.speed,
           color: crewmateData.color,
           special_ability: crewmateData.special_ability,
@@ -73,6 +74,7 @@ export const updateCrewmate = async (id, crewmateData) => {
       .from('crewmates')
       .update({
         name: crewmateData.name,
+        category: crewmateData.category,
         speed: crewmateData.speed,
         color: crewmateData.color,
         special_ability: crewmateData.special_ability,

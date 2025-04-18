@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getCrewmates } from '../services/crewmateService';
 import LoadingSpinner from '../components/LoadingSpinner';
+import categoryConfig from '../config/categoryConfig';
 import '../styles/CrewmateGallery.css';
 
 function CrewmateGallery() {
@@ -38,6 +39,14 @@ function CrewmateGallery() {
 
     fetchCrewmates();
   }, []);
+
+  // Helper function to get category name
+  const getCategoryName = (categoryKey) => {
+    if (!categoryKey || !categoryConfig[categoryKey]) {
+      return 'Unknown';
+    }
+    return categoryConfig[categoryKey].name;
+  };
 
   if (loading) {
     return (
@@ -77,6 +86,13 @@ function CrewmateGallery() {
           {crewmates.map(crewmate => (
             <div key={crewmate.id} className="crewmate-card">
               <h3>{crewmate.name}</h3>
+              
+              {crewmate.category && (
+                <div className="category-badge">
+                  {getCategoryName(crewmate.category)}
+                </div>
+              )}
+              
               <div className="crewmate-attributes">
                 <div className="attribute">Speed: {crewmate.speed}</div>
                 <div className="attribute">
