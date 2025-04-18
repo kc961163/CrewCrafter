@@ -1,4 +1,28 @@
 /* src/styles/CrewmateGallery.css */
+.gallery-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  transition: all 0.3s;
+}
+
+/* Success class styling for gallery container */
+.gallery-container.elite-crew {
+  background-color: rgba(241, 196, 15, 0.05);
+}
+
+.gallery-container.formidable-crew {
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+.gallery-container.promising-crew {
+  background-color: rgba(46, 204, 113, 0.05);
+}
+
+.gallery-container.developing-crew {
+  background-color: rgba(149, 165, 166, 0.05);
+}
+
 .crewmates-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -13,6 +37,23 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
+}
+
+/* Success class styling for crewmate cards */
+.elite-crew .crewmate-card {
+  border-top: 3px solid #f1c40f;
+}
+
+.formidable-crew .crewmate-card {
+  border-top: 3px solid #3498db;
+}
+
+.promising-crew .crewmate-card {
+  border-top: 3px solid #2ecc71;
+}
+
+.developing-crew .crewmate-card {
+  border-top: 3px solid #95a5a6;
 }
 
 .crewmate-card:hover {
@@ -36,6 +77,27 @@
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: bold;
+}
+
+/* Category badge colors based on category */
+.category-badge.warrior {
+  background-color: #e74c3c;
+}
+
+.category-badge.scientist {
+  background-color: #3498db;
+}
+
+.category-badge.medic {
+  background-color: #2ecc71;
+}
+
+.category-badge.explorer {
+  background-color: #f39c12;
+}
+
+.category-badge.navigator {
+  background-color: #9b59b6;
 }
 
 .crewmate-attributes {

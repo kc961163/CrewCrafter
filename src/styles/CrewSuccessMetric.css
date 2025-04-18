@@ -1,0 +1,133 @@
+/* src/styles/CrewSuccessMetric.css */
+.success-metric {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+  }
+  
+  .success-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .success-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #2c3e50;
+  }
+  
+  .success-rating {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+  }
+  
+  .success-progress {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .progress-bar {
+    flex: 1;
+    height: 20px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-right: 10px;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.6s ease-out;
+  }
+  
+  .progress-value {
+    font-size: 0.9rem;
+    font-weight: bold;
+    min-width: 45px;
+    text-align: right;
+  }
+  
+  .success-message {
+    margin: 10px 0 0;
+    color: #7f8c8d;
+    font-size: 0.95rem;
+  }
+  
+  /* Elite crew styling */
+  .elite-crew {
+    border-left: 5px solid #f1c40f;
+  }
+  
+  .elite-crew .success-rating {
+    background-color: #f1c40f;
+    color: #34495e;
+  }
+  
+  .elite-crew .progress-fill {
+    background-color: #f1c40f;
+  }
+  
+  /* Formidable crew styling */
+  .formidable-crew {
+    border-left: 5px solid #3498db;
+  }
+  
+  .formidable-crew .success-rating {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .formidable-crew .progress-fill {
+    background-color: #3498db;
+  }
+  
+  /* Promising crew styling */
+  .promising-crew {
+    border-left: 5px solid #2ecc71;
+  }
+  
+  .promising-crew .success-rating {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .promising-crew .progress-fill {
+    background-color: #2ecc71;
+  }
+  
+  /* Developing crew styling */
+  .developing-crew {
+    border-left: 5px solid #95a5a6;
+  }
+  
+  .developing-crew .success-rating {
+    background-color: #95a5a6;
+    color: white;
+  }
+  
+  .developing-crew .progress-fill {
+    background-color: #95a5a6;
+  }
+  
+  /* Incomplete crew styling */
+  .incomplete-crew {
+    border-left: 5px solid #bdc3c7;
+  }
+  
+  .incomplete-crew .success-rating {
+    background-color: #bdc3c7;
+    color: #34495e;
+  }
+  
+  .incomplete-crew .progress-fill {
+    background-color: #bdc3c7;
+  }

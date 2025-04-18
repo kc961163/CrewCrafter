@@ -1,0 +1,122 @@
+/* src/styles/CrewStatistics.css */
+.crew-statistics {
+    background-color: white;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .statistics-header {
+    padding: 15px 20px;
+    background-color: #2c3e50;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .statistics-header h2 {
+    margin: 0;
+    font-size: 1.3rem;
+  }
+  
+  .expand-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .expand-button.expanded {
+    transform: rotate(180deg);
+  }
+  
+  .statistics-content {
+    padding: 20px;
+  }
+  
+  .stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  .stat-item {
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .stat-label {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+  }
+  
+  .stat-value {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+  }
+  
+  .stat-value .color-dot {
+    margin-right: 8px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+  
+  .distribution-charts {
+    margin-top: 20px;
+  }
+  
+  .distribution-charts h3 {
+    margin: 20px 0 10px;
+    color: #2c3e50;
+    font-size: 1.1rem;
+  }
+  
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .chart-item {
+    margin-bottom: 10px;
+  }
+  
+  .chart-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .chart-bar-container {
+    height: 15px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .chart-bar {
+    height: 100%;
+    background-color: #3498db;
+    border-radius: 10px;
+    transition: width 0.5s ease-out;
+  }
+  
+  .chart-bar.ability-bar {
+    background-color: #9b59b6;
+  }

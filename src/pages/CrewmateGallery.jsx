@@ -3,7 +3,10 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { getCrewmates } from '../services/crewmateService';
 import LoadingSpinner from '../components/LoadingSpinner';
+import CrewStatistics from '../components/CrewStatistics';
+import CrewSuccessMetric from '../components/CrewSuccessMetric';
 import categoryConfig from '../config/categoryConfig';
+import { calculateCrewSuccessScore } from '../utils/statisticsUtil';
 import '../styles/CrewmateGallery.css';
 
 function CrewmateGallery() {
@@ -47,6 +50,10 @@ function CrewmateGallery() {
     }
     return categoryConfig[categoryKey].name;
   };
+  
+  // Get success metrics for conditional styling
+  const successMetrics = calculateCrewSuccessScore(crewmates);
+  const galleryClass = crewmates.length > 0 ? successMetrics.styleClass : '';
 
   if (loading) {
     return (
@@ -67,7 +74,7 @@ function CrewmateGallery() {
   }
 
   return (
-    <div className="gallery-container">
+    <div className={`gallery-container ${galleryClass}`}>
       <h1>Crewmate Gallery</h1>
       
       {message && (
@@ -82,32 +89,37 @@ function CrewmateGallery() {
           <Link to="/create" className="action-button primary">Create Crewmate</Link>
         </div>
       ) : (
-        <div className="crewmates-grid">
-          {crewmates.map(crewmate => (
-            <div key={crewmate.id} className="crewmate-card">
-              <h3>{crewmate.name}</h3>
-              
-              {crewmate.category && (
-                <div className="category-badge">
-                  {getCategoryName(crewmate.category)}
+        <>
+          <CrewSuccessMetric crewmates={crewmates} />
+          <CrewStatistics crewmates={crewmates} />
+          
+          <div className="crewmates-grid">
+            {crewmates.map(crewmate => (
+              <div key={crewmate.id} className="crewmate-card">
+                <h3>{crewmate.name}</h3>
+                
+                {crewmate.category && (
+                  <div className="category-badge">
+                    {getCategoryName(crewmate.category)}
+                  </div>
+                )}
+                
+                <div className="crewmate-attributes">
+                  <div className="attribute">Speed: {crewmate.speed}</div>
+                  <div className="attribute">
+                    Color: <span className="color-dot" style={{ backgroundColor: crewmate.color.toLowerCase() }}></span>
+                    {crewmate.color}
+                  </div>
+                  <div className="attribute">Special Ability: {crewmate.special_ability}</div>
                 </div>
-              )}
-              
-              <div className="crewmate-attributes">
-                <div className="attribute">Speed: {crewmate.speed}</div>
-                <div className="attribute">
-                  Color: <span className="color-dot" style={{ backgroundColor: crewmate.color.toLowerCase() }}></span>
-                  {crewmate.color}
+                <div className="card-actions">
+                  <Link to={`/gallery/${crewmate.id}`} className="action-button secondary">View Details</Link>
+                  <Link to={`/edit/${crewmate.id}`} className="action-button primary">Edit</Link>
                 </div>
-                <div className="attribute">Special Ability: {crewmate.special_ability}</div>
               </div>
-              <div className="card-actions">
-                <Link to={`/gallery/${crewmate.id}`} className="action-button secondary">View Details</Link>
-                <Link to={`/edit/${crewmate.id}`} className="action-button primary">Edit</Link>
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
